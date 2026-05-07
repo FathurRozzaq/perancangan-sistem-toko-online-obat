@@ -38,7 +38,7 @@ flowchart TD
 A[Pasien Daftar dan Isi Anamnesis] --> B[Validasi Skrining Otomatis]
 B --> C[Pilih Jadwal Konsultasi]
 C --> D[Bayar Biaya Konsultasi]
-D --> E[Masuk ke Chat Dokter (Teks / Multimedia)]
+D --> E[Masuk ke Chat Dokter: Teks / Multimedia]
 E --> F[Dokter Menyelesaikan SOAP dan Buat Resep Digital]
 F --> G[Pembayaran Obat setelah Resep Jadi]
 G --> H[Apotek Proses Resep & Buat Paket Obat]
