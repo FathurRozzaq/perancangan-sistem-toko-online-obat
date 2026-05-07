@@ -72,9 +72,49 @@ sequenceDiagram
     participant PG as Midtrans (Payment Gateway)
     participant Jitsi as Jitsi API
     actor Dokter
+    
+    %% Alur Pemesanan
+    Pasien->>View: Buka Katalog & Jadwal
+    View->>Controller: GET /booking
+    Controller->>Model: DoctorSchedule::getAvailable()
+    Model-->>Controller: Data Jadwal
+    Controller-->>View: Render Jadwal
+    Pasien->>View: Pilih Slot & Isi Anamnesis
+    View->>Controller: POST /checkout
+    Controller->>Model: Booking::create() & Invoice::create(Tagihan 1)
+    Model-->>Controller: Invoice Instance
+    Controller->>PG: Request Payment Link
+    PG-->>Controller: Payment URL
+    Controller-->>View: Tampilkan Link Bayar
+    Pasien->>PG: Lakukan Pembayaran Transfer/VA
+    PG-->>Controller: Webhook: Payment Success
+    Controller->>Model: Invoice::update(Lunas)
+    
+    %% Sesi Konsultasi
+    Controller-->>View: Enable Tombol "Mulai Sesi"
+    Pasien->>View: Masuk Ruang Virtual
+    Dokter->>View: Masuk Ruang Virtual
+    View->>Jitsi: Initialize Video Iframe
+    
+    %% SOAP dan Resep
+    Dokter->>View: Input SOAP & Simpan
+    View->>Controller: POST /consultation/soap
+    Controller->>Model: MedicalRecord::create()
+    Model-->>Controller: Success
+    Dokter->>View: Input Obat & E-Prescription
+    View->>Controller: POST /consultation/prescription
+    Controller->>Controller: Generate PDF + TTE
+    Controller->>Model: Prescription::create() & Invoice::create(Tagihan 2)
+    Model-->>Controller: Success
+    Controller->>PG: Request Payment Link
+    PG-->>Controller: Payment URL
+    Controller-->>View: Munculkan Tagihan Obat (Tagihan 2)
 ```
 
 ---
+
+## 5.3. Pemenuhan Obat (Fulfillment) & Integrasi Logistik
+Alur pemenuhan obat farmasi setelah pasien membayar Tagihan 2.
 
 ```mermaid
 sequenceDiagram
