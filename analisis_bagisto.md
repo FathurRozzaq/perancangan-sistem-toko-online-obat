@@ -20,9 +20,14 @@ Bagisto sudah menyediakan fitur dasar toko online yang sangat mapan *out-of-the-
 ## 3. Kesesuaian dengan Kebutuhan Spesifik PT PRABAVA
 Berikut adalah analisis *gap* (kesenjangan) antara fitur bawaan Bagisto dengan dokumen `analisis_kebutuhan_website.md` PT PRABAVA:
 
-### A. Sistem E-Commerce Terintegrasi
-*   **Status Bagisto:** **Tersedia & Siap Pakai.**
-*   **Analisis:** Kebutuhan dasar seperti katalog, keranjang belanja, *payment gateway*, dan logistik sangat mudah diimplementasikan karena Bagisto memiliki struktur yang kokoh dan banyak ekstensi pembayaran/logistik yang sudah ada. Fitur *Bundling* produk yang diminta oleh PT PRABAVA juga sudah didukung secara native melalui *Bundle Product Type*.
+### A. Sistem E-Commerce Terintegrasi & Penyesuaian Pasar Indonesia
+*   **Status Bagisto:** **Memerlukan Penyesuaian Modul (Custom Packages).**
+*   **Analisis:** Meskipun kebutuhan dasar (katalog, keranjang) telah didukung, terdapat lima rincian penyesuaian teknis yang **wajib** diimplementasikan pada kerangka kerja Bagisto agar sistem beroperasi optimal di Indonesia:
+    1. **Integrasi Sistem Pembayaran (Midtrans):** Secara bawaan Bagisto menggunakan Stripe/PayPal. Diwajibkan mengembangkan modul pembayaran kustom (Package Laravel) yang terintegrasi dengan API Midtrans (Snap/Core API) untuk mencegat alur checkout dan menyediakan opsi Virtual Account, E-Wallet (GoPay, OVO), dan QRIS, lengkap dengan rute Webhook.
+    2. **Integrasi Sistem Logistik (Biteship):** Diperlukan modul *Shipping Method* khusus yang berkomunikasi dengan REST API Biteship. Saat checkout, sistem mengirim berat keranjang dan ID wilayah ke Biteship untuk menampilkan tarif aktual kurir lokal (JNE, J&T, SiCepat). Disarankan mencakup fitur pembuatan resi otomatis (AWB).
+    3. **Restrukturisasi Formulir Alamat Pengiriman:** Mengubah isian teks bebas bawaan menjadi sistem *dependent dropdowns* berjenjang (Provinsi -> Kota/Kabupaten -> Kecamatan) yang dipetakan dengan basis data wilayah (ID area) dari Biteship agar presisi pengiriman terjamin.
+    4. **Konfigurasi Mata Uang & Lokalisasi:** Menetapkan Rupiah Indonesia (IDR) sebagai *base currency* tanpa desimal (0 desimal) untuk menampilkan harga bulat (contoh: "Rp 150.000"). Menerjemahkan bahasa *frontend* (Cart, Checkout) menjadi bahasa Indonesia yang baku.
+    5. **Penyesuaian Notifikasi (WhatsApp):** Mengganti ketergantungan pada email (SMTP) dengan mengembangkan modul *Observer* pada *event* transaksi (`checkout.order.save.after`) untuk mengirim notifikasi WhatsApp otomatis berisi ringkasan pesanan, instruksi pembayaran, dan resi.
 
 ### B. Modul Kecerdasan Buatan (AI) & Personalisasi
 *   **Status Bagisto:** **Tersedia Parsial (Didukung via Integrasi).**

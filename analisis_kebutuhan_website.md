@@ -15,11 +15,12 @@ Website membutuhkan pembagian peran pengguna yang jelas:
 
 ## 3. Rincian Fitur Utama
 
-### A. Sistem E-Commerce Terintegrasi
-*   **Katalog Produk Terstandarisasi:** Halaman produk yang informatif namun dibatasi secara ketat oleh regulasi klaim BPOM (objektif dan tidak menyesatkan).
-*   **Keranjang Belanja & Checkout:** Alur pembelian yang mudah (*seamless*).
-*   **Integrasi Payment Gateway:** Pembayaran otomatis melalui Transfer Bank (Virtual Account), E-Wallet, atau Kartu Kredit.
-*   **Integrasi Logistik/Kurir:** Penghitungan ongkos kirim otomatis berdasarkan alamat dan pelacakan resi pengiriman secara *real-time*.
+### A. Sistem E-Commerce Terintegrasi (Kustomisasi Pasar Lokal)
+*   **Katalog & Lokalisasi:** Halaman produk patuh regulasi BPOM. Sistem dikonfigurasi dengan mata uang dasar IDR (tanpa desimal) dan antarmuka bahasa Indonesia baku untuk kemudahan pengguna lokal.
+*   **Keranjang Belanja & Formulir Alamat:** Alur *checkout* menggunakan formulir alamat dengan sistem *dependent dropdowns* berjenjang (Provinsi -> Kota/Kabupaten -> Kecamatan) yang tersinkronisasi presisi dengan ID Area logistik.
+*   **Integrasi Payment Gateway (Midtrans):** Pengembangan modul kustom untuk integrasi API Midtrans, menyediakan opsi pembayaran Virtual Account, E-Wallet (GoPay, OVO), dan QRIS dengan fitur pembaruan status *real-time* via Webhook.
+*   **Integrasi Logistik (Biteship):** Kalkulasi ongkos kirim dinamis melalui REST API Biteship berdasarkan koordinat/ID wilayah dan berat paket untuk kurir lokal (JNE, SiCepat, dll), termasuk pembuatan resi/AWB otomatis.
+*   **Notifikasi Transaksional (WhatsApp):** Menggunakan API WhatsApp Gateway yang dipicu oleh aktivitas transaksi (*Observer*) untuk mengirimkan instruksi pembayaran dan resi secara *real-time*, menggantikan email standar.
 *   **Sistem Bundling:** Fitur untuk mengelompokkan beberapa varian produk menjadi paket dengan harga khusus.
 
 ### B. Modul Kecerdasan Buatan (AI) & Personalisasi
