@@ -4,74 +4,81 @@
 Menjelaskan model bisnis aplikasi telemedicine yang melibatkan konsultasi dokter, pembuatan resep digital, dan pengiriman obat keras. Model ini cocok untuk layanan kesehatan berbasis program pengobatan seperti penurunan berat badan.
 
 ## Ringkasan Singkat
-Model ini adalah **platform telemedicine** lengkap, bukan hanya toko online. Platform menggabungkan:
-- **Pendaftaran pasien dengan skrining klinis**
-- **Katalog layanan dan penemuan layanan** dengan pencarian dan filter paket medis
-- **Profil pasien, manajemen alamat, dan portal pengguna** yang terintegrasi
-- **Konsultasi dokter multimedia** (chat + opsi video)
-- **Rekam medis elektronik** dengan formulir SOAP
-- **Resep digital (e-prescription)** yang aman
-- **Pembayaran dua tahap via Midtrans** (konsultasi + obat)
+Model ini adalah **platform telemedicine/ kesehatan online** yang lengkap, bukan hanya toko obat. Platform ini menyediakan:
+- **Pendaftaran pasien dengan skrining klinis/pemeriksaan awal sederhana**.
+- **Katalog layanan dengan fitur pencarian dan filter**, jadi pasien bisa pilih paket yang cocok.
+- **Profil pasien dan alamat pengiriman** yang disimpan agar proses lebih cepat.
+- **Konsultasi dokter via chat dan video** jika dibutuhkan.
+- **Rekam medis elektronik** yang dibuat dokter dengan struktur SOAP yang rapi.
+- **Resep digital** yang bisa dicetak atau dibuka sebagai PDF.
+- **Pembayaran dua tahap lewat Midtrans** untuk konsultasi dan obat.
 - **Manajemen apotek & logistik via Biteship** untuk pengiriman obat
-- **Ulasan, rating, dan kebijakan retur/refund** sebagai bagian pengalaman pasien
-- **Kepatuhan PSE dan regulasi kesehatan**
+- **Ulasan dan kebijakan pengembalian uang** untuk pengalaman pasien yang lebih aman.
+- **Kepatuhan PSE dan aturan kesehatan** untuk menjaga legalitas dan keamanan.
 
 ## Inti Framework Model
-1. **Sistem Pasien**: Pasien mendaftar dengan WhatsApp, mengisi anamnesis, dan mengelola profil serta alamat pengiriman.
-2. **Sistem Dokter**: Dokter diverifikasi oleh admin, membuat jadwal, menerima konsultasi, dan mengelola resep.
-3. **Katalog Layanan & Booking**: Pasien mencari layanan berdasarkan kondisi, memilih paket, dan memilih jadwal konsultasi.
-4. **Konsultasi**: Chat multimedia terintegrasi di browser; opsi video bila diperlukan.
-5. **Resep Digital**: Dokter membuat resep PDF, dilindungi watermark atau QR code.
-6. **Apotek & Fulfillment**: Apotek memproses resep, mengemas obat sesuai aturan, dan menyiapkan pengiriman.
-7. **Pembayaran Midtrans**: Sistem memproses pembayaran konsultasi dan obat melalui Midtrans.
-8. **Logistik Biteship**: Pengiriman obat terotomasi dengan pembuatan resi Biteship dan pelacakan.
-9. **Ulasan & Refund**: Pasien dapat memberi rating/komentar dan mengajukan klaim retur jika perlu.
-10. **Notifikasi**: WhatsApp dan internal chat memberi update otomatis.
+1. **Sistem Pasien**: Pasien mendaftar dengan WhatsApp, mengisi anamnesis, lalu menyimpan profil dan alamat pengiriman.
+2. **Sistem Dokter**: Dokter diverifikasi oleh admin, membuat jadwal, memberikan konsultasi, dan menulis resep.
+3. **Katalog Layanan & Booking**: Pasien mencari layanan berdasarkan kebutuhan, memilih paket, dan memesan jadwal konsultasi.
+4. **Konsultasi**: Konsultasi dilakukan lewat chat, dengan opsi video bila dibutuhkan.
+5. **Rekam Medis Elektronik**: Dokter membuat catatan medis yang terstruktur agar riwayat pasien tersimpan rapi.
+6. **Resep Digital**: Dokter membuat resep dalam bentuk digital, yang bisa diunduh sebagai PDF, dilindungi watermark atau QR code.
+7. **Apotek & Fulfillment**: Apotek memproses resep, mengemas obat sesuai aturan, dan menyiapkan pengiriman.
+8. **Pembayaran Midtrans**: Pembayaran konsultasi dan obat dilakukan lewat Midtrans, layanan pembayaran online.
+9. **Pengiriman via Biteship**: Obat dikirim lewat Biteship, layanan logistik yang juga membantu melacak paket.
+10. **Ulasan & Refund**: Pasien bisa memberi nilai dan komentar, serta mengajukan pengembalian jika ada masalah.
+11. **Notifikasi**: Sistem mengirim pesan otomatis lewat WhatsApp untuk update penting.
 
 ## Apa yang Dibutuhkan
-- Akun pasien, dokter, apotek, admin
-- Modul profil pengguna, manajemen alamat, dan pengaturan notifikasi
-- Katalog layanan telemedicine dengan halaman detail, pencarian, dan filter
-- Formulir anamnesis dan skrining otomatis
-- Sistem chat medis dengan multimedia
-- Modul resep digital dan manajemen farmasi
-- Integrasi dengan Midtrans sebagai payment gateway
-- Integrasi dengan Biteship untuk logistik, resi, dan tracking
-- Sistem ulasan/rating dan kebijakan retur/refund
-- Fitur compliance PSE dan dokumen audit
+- Akun pasien, dokter, apotek, dan admin
+- Halaman profil pengguna dan pengaturan alamat
+- Katalog layanan dengan rincian paket, pencarian, dan filter
+- Formulir isian kesehatan awal yang sederhana
+- Sistem chat yang bisa mengirim teks, suara, dan gambar
+- Modul resep digital yang aman dan bisa dicetak
+- Integrasi pembayaran lewat Midtrans (layanan pembayaran online)
+- Integrasi logistik lewat Biteship untuk nomor resi dan pelacakan
+- Fitur ulasan/rating dan aturan pengembalian uang
+- Fitur keamanan dan audit untuk kepatuhan PSE dan peraturan kesehatan
 
 ## Alur Sederhana
 
 ```mermaid
 flowchart TD
-A[Pasien Daftar dan Isi Anamnesis & Profil] --> B[Validasi Skrining Otomatis]
+A[Pasien Daftar dan Isi Profil] --> B[Isi Form Kesehatan Awal]
 B --> C[Pilih Layanan & Jadwal Konsultasi]
-C --> D[Pembayaran Konsultasi via Midtrans]
-D --> E[Masuk ke Chat Dokter: Teks / Multimedia]
-E --> F[Dokter Menyelesaikan SOAP dan Buat Resep Digital]
-F --> G[Pembayaran Obat via Midtrans setelah Resep Jadi]
-G --> H[Apotek Proses Resep & Buat Paket Obat]
-H --> I[Kirim Paket via Biteship dengan Resi]
-I --> J[Pasien Terima Obat dan Beri Ulasan]
+C --> D[Bayar Konsultasi via Midtrans]
+D --> E[Masuk ke Ruang Chat Dokter]
+E --> F[Dokter Menyelesaikan Catatan Medis & Resep Digital]
+F --> G[Bayar Obat via Midtrans]
+G --> H[Apotek Proses Resep & Siapkan Paket]
+H --> I[Kirim Paket via Biteship & Dapatkan Nomor Resi]
+I --> J[Pasien Terima Obat & Beri Ulasan]
 ```
 
 ## Penjelasan Non-Teknis
-Model ini mirip dengan layanan klinik digital. Pasien tidak perlu pergi ke rumah sakit atau install banyak aplikasi. Semua proses dilakukan melalui website yang terintegrasi dengan Midtrans dan Biteship:
-- Pasien mendaftar, mengisi profil dan alamat, serta menjawab pertanyaan medis sederhana.
-- Pasien mencari paket layanan, melihat detail layanan, lalu memilih dokter dan jadwal konsultasi.
-- Pembayaran konsultasi dan obat dilakukan melalui Midtrans, sehingga status tagihan terbarui otomatis.
-- Konsultasi dilakukan lewat chat, dan jika perlu, via video langsung dalam browser.
-- Dokter membuat resep, obat dikirim ke alamat pasien melalui Biteship, dan pasien dapat melacak nomor resi.
-- Pasien dapat memberi ulasan setelah layanan selesai, serta mengajukan klaim retur/refund jika diperlukan.
-- Semua tahap pembayaran dan logistik dikontrol oleh sistem sehingga pasien mengikuti aturan dan apotek dapat memproses resep dengan benar.
+Model ini seperti klinik online. Pasien bisa mendapat layanan kesehatan tanpa keluar rumah atau install aplikasi lain. Seluruh proses ada di website, dengan bantuan Midtrans dan Biteship.
+- Pasien mendaftar, mengisi profil, alamat, dan menjawab pertanyaan kesehatan dasar.
+- Pasien memilih paket layanan yang paling sesuai, lalu memilih dokter dan jadwal.
+- Pembayaran konsultasi dan obat dilakukan lewat Midtrans, layanan pembayaran online. Setelah bayar, statusnya langsung berubah di sistem.
+- Konsultasi dilakukan lewat chat, dan jika perlu, bisa ditambah video.
+- Dokter menulis catatan kesehatan dan resep digital. Resep digital artinya resep dibuat dalam bentuk file elektronik.
+- Setelah resep dibuat, apotek memproses pesanan dan paket dikirim lewat Biteship. Pasien mendapat nomor resi untuk melacak paket.
+- Setelah paket sampai, pasien bisa memberi nilai dan komentar. Kalau ada masalah, pasien bisa mengajukan pengembalian uang atau retur.
+
+> Catatan istilah:
+> - **Midtrans**: layanan pembayaran yang membantu pelanggan membayar dengan transfer bank, QRIS, atau dompet digital.
+> - **Biteship**: layanan pengiriman paket yang membantu cetak resi dan melacak paket.
+> - **Resep digital**: resep yang dibuat dalam bentuk elektronik, sehingga bisa disimpan atau dicetak.
+> - **Formulir kesehatan awal**: daftar pertanyaan sederhana untuk membantu dokter mengetahui kondisi pasien sebelum konsultasi.
 
 ## Estimasi Waktu Pembuatan
 - **Durasi: 8–9 bulan** (dengan 1 pengembang utama)
 - Breakdown:
   - 1 bulan analisis regulasi, arsitektur, dan rencana kepatuhan
   - 2 bulan pengembangan fitur pasien, dokter, dan chat multimedia
-  - 1,5 bulan pengembangan resep digital, SOAP, dan manajemen apotek
-  - 1,5 bulan integrasi pembayaran, logistik, notifikasi, dan compliance PSE
+  - 1,5 bulan pengembangan resep digital, rekam medis SOAP, dan manajemen apotek
+  - 1,5 bulan integrasi pembayaran, logistik, notifikasi, dan kepatuhan aturan PSE
   - 1 bulan uji coba akhir, validasi medis, dan peluncuran awal
 
 > Estimasi ini mempertimbangkan tingkat kompleksitas telemedicine dan beban kerja satu orang pengembang.
