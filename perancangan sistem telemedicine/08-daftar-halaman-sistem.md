@@ -21,17 +21,23 @@ Dokumen ini mendaftar seluruh halaman antarmuka web (*User Interface*) yang akan
 **Daftar Halaman:**
 1. **Dashboard Pasien**: Halaman utama yang menampilkan ringkasan jadwal konsultasi mendatang dan status pesanan aktif.
 2. **Katalog Layanan & Booking**: Halaman pemilihan paket medis dan pengaturan waktu luang (memilih jadwal dokter).
-3. **Formulir Skrining (Anamnesis)**: Halaman *wizard* (*multi-step form*) untuk menjawab kuesioner medis dasar.
-4. **Halaman Pembayaran (Tagihan)**: Antarmuka *Payment Gateway* dan kolom *input voucher* diskon (Berlaku untuk dua kondisi: Tagihan 1 - Konsultasi & Tagihan 2 - Obat).
-5. **Ruang Konsultasi Terpadu**: Antarmuka utama yang memuat ruang *Chat* Multimedia (dengan fungsi *voice note*, gambar, video) dan *iframe* video Jitsi opsional jika ada undangan *video call*.
-6. **Riwayat Medis & Resep**: Halaman *Read-Only* untuk melihat hasil diagnosis (SOAP) dan mengunduh PDF *E-Prescription*.
-7. **Pelacakan Pemesanan**: Halaman status logistik pengiriman obat (*Tracking Resi*).
-8. **Customer Support & Reporting**: Halaman fasilitas *Live Chat* ke Admin dan formulir pelaporan konten (Kepatuhan PSE).
+3. **Halaman Detail Layanan**: Halaman detail komprehensif untuk setiap paket program medis, menampilkan deskripsi, durasi, hasil yang diharapkan, kontraindikasi, harga, rating dokter, dan ketersediaan jadwal.
+4. **Pencarian & Filter Layanan**: Fitur pencarian dan filter berdasarkan kondisi kesehatan (kata kunci), harga, rating dokter, atau ketersediaan jadwal.
+5. **Formulir Skrining (Anamnesis)**: Halaman *wizard* (*multi-step form*) untuk menjawab kuesioner medis dasar.
+6. **Halaman Pembayaran (Tagihan)**: Antarmuka *Payment Gateway Midtrans* dan kolom *input voucher* diskon (Berlaku untuk dua kondisi: Tagihan 1 - Konsultasi & Tagihan 2 - Obat).
+7. **Ruang Konsultasi Terpadu**: Antarmuka utama yang memuat ruang *Chat* Multimedia (dengan fungsi *voice note*, gambar, video) dan *iframe* video Jitsi opsional jika ada undangan *video call*.
+8. **Riwayat Medis & Resep**: Halaman *Read-Only* untuk melihat hasil diagnosis (SOAP) dan mengunduh PDF *E-Prescription*.
+9. **Pelacakan Pemesanan**: Halaman status logistik pengiriman obat (*Tracking Resi Biteship*).
+10. **Profil Pengguna & Pengaturan Akun**: Halaman untuk memperbarui informasi pribadi (nama, nomor HP, alamat, foto profil) dan preferensi notifikasi.
+11. **Manajemen Alamat Pengiriman**: Fitur untuk menyimpan dan mengelola multiple alamat pengiriman dengan opsi "Alamat Utama".
+12. **Riwayat Transaksi Lengkap**: Dasbor riwayat pemesanan/konsultasi yang terfilter dan dapat dicari berdasarkan status, tanggal, atau dokter/paket.
+13. **Ulasan & Rating**: Halaman bagi Pasien untuk memberikan rating (1-5 bintang) dan komentar terhadap dokter, kualitas obat, atau ketepatan pengiriman.
+14. **Customer Support & Reporting**: Halaman fasilitas *Live Chat* ke Admin, formulir pelaporan konten (Kepatuhan PSE), dan formulir kebijakan refund/retur.
 
 **Alur Navigasi Utama (Patient Journey Flow):**
-`Dashboard` ➔ Klik "Mulai Program" ➔ `Katalog Layanan & Booking` ➔ `Formulir Skrining (Anamnesis)` ➔ Lolos Skrining ➔ `Halaman Pembayaran (Tagihan 1)` ➔ Lunas ➔ Menunggu Waktu Jadwal ➔ `Ruang Konsultasi Virtual` ➔ Sesi Selesai ➔ Dialihkan ke `Halaman Pembayaran (Tagihan 2)` ➔ Lunas ➔ `Pelacakan Pemesanan`.
+`Dashboard` ➔ Klik "Mulai Program" ➔ `Katalog Layanan & Booking` ➔ `Pencarian & Filter Layanan` (Opsional) ➔ `Halaman Detail Layanan` ➔ `Formulir Skrining (Anamnesis)` ➔ Lolos Skrining ➔ `Halaman Pembayaran (Tagihan 1 - Midtrans)` ➔ Lunas ➔ Menunggu Waktu Jadwal ➔ `Ruang Konsultasi Virtual` ➔ Sesi Selesai ➔ Dialihkan ke `Halaman Pembayaran (Tagihan 2 - Midtrans)` ➔ Lunas ➔ `Pelacakan Pemesanan (Biteship)` ➔ Terima Obat ➔ `Ulasan & Rating`.
 
-*(Catatan: Pasien dapat mengakses halaman `Riwayat Medis` dan `Customer Support` kapan saja dari menu navigasi utama).*
+*(Catatan: Pasien dapat mengakses halaman `Profil Pengguna`, `Manajemen Alamat`, `Riwayat Transaksi`, `Riwayat Medis`, dan `Customer Support` kapan saja dari menu navigasi utama).*
 
 ---
 

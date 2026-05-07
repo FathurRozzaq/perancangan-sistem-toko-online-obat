@@ -43,13 +43,13 @@ Bagian ini merangkum fitur-fitur utama yang wajib dikembangkan pada iterasi pert
   - Tagihan 1: Biaya jasa konsultasi (memicu aktivasi ruang konsultasi/chat). Ruang konsultasi yang dipicu oleh pembayaran ini hanya akan bisa diakses sesuai dengan jadwal jam *booking* yang telah ditentukan.
   - Tagihan 2: Biaya penebusan obat (memicu proses pemenuhan ke farmasi).
 - **Manajemen Penggunaan Voucher**: Antarmuka di halaman pembayaran yang memungkinkan Pasien untuk menerapkan *voucher* diskon yang telah mereka klaim untuk mengurangi total tagihan (sistem memvalidasi kecocokan *voucher* terhadap Tagihan 1 atau Tagihan 2).
-- **Integrasi Webhook Payment Gateway**: Koneksi sistem ke penyedia pembayaran (seperti Midtrans/Xendit) untuk otomatis memperbarui status transaksi (*Pending* -> *Paid*) segera setelah Pasien mentransfer dana, tanpa perlu verifikasi manual.
+- **Integrasi Webhook Payment Gateway (Midtrans)**: Koneksi sistem ke **Midtrans** sebagai penyedia pembayaran pilihan untuk otomatis memperbarui status transaksi (*Pending* -> *Paid*) segera setelah Pasien mentransfer dana. Mendukung berbagai metode pembayaran (Transfer Bank, Virtual Account, e-Wallet, BNPL) tanpa perlu verifikasi manual.
 
 ## 7. Modul Pemenuhan (Fulfillment) & Logistik
 - ***Forwarding* Pesanan Farmasi**: Mekanisme otomatis yang merangkum data pesanan obat yang sudah dibayar beserta lampiran PDF e-prescription, untuk diteruskan ke dasbor/sistem apotek pusat.
 - **Konfirmasi Keamanan Pengemasan**: Fitur *mandatory checklist* di mana Apotek diwajibkan menyetujui bahwa kemasan telah tertutup rapat, tidak tembus pandang, dan disegel khusus (sesuai regulasi obat keras) sebelum tombol "Request Pickup" logistik terbuka.
-- **Pembuatan Resi Otomatis (Auto-AWB)**: Integrasi dengan API Agregator Logistik (seperti Biteship) untuk mencetak nomor resi kurir setelah apotek menekan tombol "Dikemas".
-- **Pelacakan Pengiriman (Live Tracking)**: Fitur bagi Pasien untuk melacak pergerakan paket obat mereka di dalam aplikasi secara *asinkron*.
+- **Pembuatan Resi Otomatis (Auto-AWB)**: Integrasi dengan API Agregator Logistik **Biteship** untuk mencetak nomor resi kurir setelah apotek menekan tombol "Dikemas". Mendukung berbagai metode pengiriman (Same Day, Regular, Scheduled) dengan tracking real-time.
+- **Pelacakan Pengiriman (Live Tracking)**: Fitur bagi Pasien untuk melacak pergerakan paket obat mereka di dalam aplikasi secara *asinkron* via integrasi webhook Biteship.
 
 ## 8. Modul Notifikasi Terpusat
 - **Notifikasi Transaksional Asinkron**: Modul berbasis *queue* (seperti Redis) yang bertugas mengirimkan pesan ke Pasien via Email atau integrasi WhatsApp Gateway, mencakup:
@@ -89,3 +89,26 @@ Bagian ini merangkum fitur-fitur utama yang wajib dikembangkan pada iterasi pert
 - **Pelaporan Konten (User Reporting)**: Tombol *Report* bagi Pasien untuk melaporkan pesan/konten berbahaya (seperti percakapan *chat* tidak senonoh) yang dikategorikan sebagai *User Generated Content* (UGC) yang melanggar aturan Kominfo.
 - **Takedown Dashboard**: Dasbor khusus bagi Superadmin untuk meninjau laporan UGC. Jika terbukti melanggar, Superadmin dapat mengeksekusi "Pemutusan Akses" (*takedown*) secara instan dengan target batas penyelesaian di bawah 1x24 jam.
 - **Law Enforcement Access Portal**: Fitur pengumpulan rekaman data log (audit) guna memfasilitasi penyerahan informasi pengguna atau riwayat komunikasi kepada Aparat Penegak Hukum sesuai tenggat waktu resmi (maksimal 5 hari). Wewenang ini terpusat pada *Superadmin* sebagai *Narahubung Hukum*.
+
+## 15. Modul Manajemen Profil & Pengaturan Akun
+- **Halaman Profil Pengguna**: Antarmuka bagi semua pengguna (Pasien, Dokter, Apotek, Admin) untuk memperbarui informasi pribadi seperti nama, nomor HP, alamat, foto profil, dan preferensi komunikasi.
+- **Manajemen Alamat Pengiriman (Address Book)**: Fitur bagi Pasien untuk menyimpan dan mengelola multiple alamat pengiriman dengan opsi "Alamat Utama" untuk mempercepat proses checkout.
+- **Riwayat Transaksi Lengkap**: Dasbor riwayat pemesanan/konsultasi yang terfilter dan dapat dicari berdasarkan status, tanggal, atau dokter/paket yang dipilih.
+- **Pengaturan Notifikasi**: Kontrol preferensi Pasien untuk menerima notifikasi via Email, WhatsApp, atau push notification.
+
+## 16. Modul Ulasan, Rating & Kepuasan Pelanggan
+- **Sistem Rating Dokter & Apotek**: Fitur bagi Pasien untuk memberikan bintang (1-5) dan komentar tertulis terhadap layanan yang diterima (dokter, kualitas paket obat, ketepatan waktu pengiriman).
+- **Agregasi Rating Publik**: Tampilan rata-rata rating dan ringkasan ulasan di halaman katalog layanan/dokter sehingga calon pasien dapat membuat keputusan berdasarkan pengalaman pengguna sebelumnya.
+- **Moderasi Ulasan**: Fitur bagi Admin untuk menghapus ulasan yang tidak pantas atau melanggar kebijakan platform.
+- **Feedback Bot (AI Chatbot)**: Asisten berbasis AI yang secara otomatis menganalisis sentimen ulasan negatif dan mengusulkan tindakan perbaikan kepada mitra medis.
+
+## 17. Modul Katalog & Penemuan Layanan (Service Discovery)
+- **Halaman Detail Layanan**: Halaman detail komprehensif untuk setiap paket program medis, menampilkan deskripsi, durasi, hasil yang diharapkan, kontraindikasi, harga, dan profil dokter tersedia.
+- **Fitur Pencarian & Filter**: Kemampuan Pasien untuk mencari layanan berdasarkan kondisi kesehatan (kata kunci), harga, rating dokter, atau ketersediaan jadwal.
+- **Carousel Layanan Unggulan**: Bagian di halaman beranda yang menampilkan paket program populer atau trending dengan banner promosi.
+- **Halaman Kategori Layanan**: Pengelompokan paket berdasarkan kategori kesehatan (Diet & Lifestyle, Kosmetik, Kesehatan Mental, dll) untuk navigasi yang lebih mudah bagi Pasien.
+
+## 18. Modul Kebijakan Pengembalian & Refund
+- **Kebijakan Retur & Refund Obat**: Alur pengembalian obat (jika rusak, salah pengiriman, atau tidak sesuai resep) dengan form klaim yang jelas dan proses review otomatis.
+- **Refund atau Kredit Konsultasi**: Mekanisme pemberian kredit/voucher bagi Pasien apabila konsultasi dibatalkan oleh Dokter (sakit, tidak hadir, etc.) dengan SLA refund maksimal 1x24 jam.
+- **Garansi Kepuasan**: Fitur yang memungkinkan Pasien untuk melaporkan ketidakpuasan layanan (dokter tidak responsif, obat tidak sesuai, dll) untuk di-eskalasi ke Superadmin guna mendapatkan solusi atau kompensasi.

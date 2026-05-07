@@ -27,8 +27,8 @@ Pengembangan wajib mematuhi parameter arsitektur berikut:
 Sistem memiliki ketergantungan pada *Third-Party API* (Layanan Pihak Ketiga) guna menggeser beban infrastruktur yang berat:
 
 - **Ketergantungan Video Streaming**: Sistem berasumsi bahwa beban panggilan video tidak akan ditanggung oleh peladen lokal. Sistem bergantung pada integrasi API **Jitsi** (via Iframe) untuk menyediakan ruang tatap muka virtual (*video conference*).
-- **Ketergantungan Payment Gateway**: Validasi pembayaran (Tagihan Konsultasi & Tagihan Obat), hingga proses pencairan dana (*Payout/Disbursement*) diasumsikan sepenuhnya diurus oleh Payment Gateway modern (seperti **Midtrans** atau **Xendit**). Peladen internal hanya memantau status akhir via komunikasi *Webhook*.
-- **Ketergantungan Logistik**: Penghitungan ongkos kirim dan pencetakan nomor resi secara otomatis bergantung penuh pada ketersediaan Agregator Logistik pihak ketiga (seperti **Biteship** atau **RajaOngkir**).
+- **Ketergantungan Payment Gateway (Midtrans)**: Validasi pembayaran (Tagihan Konsultasi & Tagihan Obat), hingga proses pencairan dana (*Payout/Disbursement*) diasumsikan sepenuhnya diurus oleh **Midtrans** sebagai Payment Gateway pilihan. Platform mendukung berbagai metode pembayaran (Transfer Bank, Virtual Account, e-Wallet, BNPL) dan menyediakan API Account Inquiry serta Disbursement yang terintegrasi. Peladen internal hanya memantau status akhir via komunikasi *Webhook*.
+- **Ketergantungan Logistik (Biteship)**: Penghitungan ongkos kirim dan pencetakan nomor resi (AWB) secara otomatis bergantung penuh pada ketersediaan API **Biteship** sebagai Agregator Logistik pilihan. Biteship mendukung berbagai metode pengiriman (Same Day, Regular, Scheduled) dengan tracking real-time via webhook.
 - **Ketergantungan Pesan Instan**: Pengingat SLA dan fitur *Nudge* internal berasumsi pada tersedianya layanan integrasi **WhatsApp Gateway**.
 
 ### 7.3.1. Standar Keamanan & Perlindungan Data Elektronik
