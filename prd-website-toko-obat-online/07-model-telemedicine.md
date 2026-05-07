@@ -46,7 +46,7 @@ H --> I[Kirim Paket via Logistik dengan Resi]
 I --> J[Pasien Terima Obat dan Selesai]
 ```
 
-## Penjelasan untuk Non-Teknologi
+## Penjelasan Non-Teknis
 Model ini mirip dengan layanan klinik digital. Pasien tidak perlu pergi ke rumah sakit atau install banyak aplikasi. Semua proses dilakukan melalui website:
 - Pasien mendaftar dan menjawab pertanyaan medis sederhana.
 - Kemudian memilih dokter dan jadwal konsultasi.

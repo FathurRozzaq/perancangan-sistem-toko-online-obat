@@ -35,16 +35,16 @@ flowchart TD
 A[Pelanggan Buka Website] --> B[Mengakses Katalog Produk]
 B --> C[Pilih Produk dan Masukkan Keranjang]
 C --> D[Lanjut ke Checkout]
-D --> E[Isi Alamat dengan Dependent Dropdown]
-E --> F[Pilih Metode Pembayaran Midtrans]
+D --> E[Isi Alamat Penerima]
+E --> F[Pilih Metode Pembayaran (QRIS, bank, e-wallet)]
 F --> G[Bayar dan Terima Konfirmasi]
-G --> H[Generasi Resi via Biteship]
+G --> H[Generasi Resi Paket Ekspedisi]
 H --> I[Notifikasi WhatsApp & Tracking]
 I --> J[Produk Diterima dan Pelanggan Memberi Review]
 J --> K[AI Pengingat Konsumsi & Penawaran Ulang]
 ```
 
-## Penjelasan untuk Non-Teknologi
+## Penjelasan Non-Teknis
 Website ini bekerja seperti toko online biasa, tapi dengan tambahan utama:
 - Produk sudah dibuat dari **paten khusus**, bukan sekadar jamu biasa.
 - Setiap produk **legal dan terdaftar BPOM**.
