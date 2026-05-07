@@ -32,17 +32,18 @@ Model ini adalah **platform telemedicine** lengkap, bukan hanya toko online. Pla
 - Fitur compliance PSE dan dokumen audit
 
 ## Alur Sederhana
+
 ```mermaid
 flowchart TD
-  A[Pasien Daftar dan Isi Anamnesis] --> B[Validasi Skrining Otomatis]
-  B --> C[Pilih Jadwal Konsultasi]
-  C --> D[Bayar Biaya Konsultasi]
-  D --> E[Masuk ke Chat Dokter (Teks / Multimedia)]
-  E --> F[Dokter Menyelesaikan SOAP dan Buat Resep Digital]
-  F --> G[Pembayaran Obat setelah Resep Jadi]
-  G --> H[Apotek Proses Resep & Buat Paket Obat]
-  H --> I[Kirim Paket via Logistik dengan Resi]
-  I --> J[Pasien Terima Obat dan Selesai]
+A[Pasien Daftar dan Isi Anamnesis] --> B[Validasi Skrining Otomatis]
+B --> C[Pilih Jadwal Konsultasi]
+C --> D[Bayar Biaya Konsultasi]
+D --> E[Masuk ke Chat Dokter (Teks / Multimedia)]
+E --> F[Dokter Menyelesaikan SOAP dan Buat Resep Digital]
+F --> G[Pembayaran Obat setelah Resep Jadi]
+G --> H[Apotek Proses Resep & Buat Paket Obat]
+H --> I[Kirim Paket via Logistik dengan Resi]
+I --> J[Pasien Terima Obat dan Selesai]
 ```
 
 ## Penjelasan untuk Non-Teknologi
@@ -54,13 +55,15 @@ Model ini mirip dengan layanan klinik digital. Pasien tidak perlu pergi ke rumah
 - Semua tahap pembayaran dikontrol oleh sistem sehingga pasien mengikuti aturan dan apotek dapat memproses resep dengan benar.
 
 ## Estimasi Waktu Pembuatan
-- **Durasi: 6–7 bulan**
+- **Durasi: 8–9 bulan** (dengan 1 pengembang utama)
 - Breakdown:
   - 1 bulan analisis regulasi, arsitektur, dan rencana kepatuhan
-  - 2 bulan pengembangan fitur pasien, dokter, dan chat
-  - 1 bulan pengembangan resep digital dan manajemen apotek
-  - 1 bulan integrasi pembayaran, logistik, dan notifikasi
-  - 1 bulan uji coba, validasi medis, dan compliance testing
+  - 2 bulan pengembangan fitur pasien, dokter, dan chat multimedia
+  - 1,5 bulan pengembangan resep digital, SOAP, dan manajemen apotek
+  - 1,5 bulan integrasi pembayaran, logistik, notifikasi, dan compliance PSE
+  - 1 bulan uji coba akhir, validasi medis, dan peluncuran awal
+
+> Estimasi ini mempertimbangkan tingkat kompleksitas telemedicine dan beban kerja satu orang pengembang.
 
 ## Kelebihan Model Ini
 - Bisa melayani produk yang memerlukan resep dan pemantauan medis
