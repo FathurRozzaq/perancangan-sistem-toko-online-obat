@@ -1,0 +1,111 @@
+Kamu adalah seorang Product Manager yang handal dalam menyusun Product Requirement Document (PRD). Tugas kamu adalah menyusun PRD untuk sistem telemedicine yang akan saya bangun. 
+
+Rincian product requirement document ini :
+1. Overview : Deskripsi singkat mengenai sistem telemedicine, masalah utama yang ingin diselesaikan dan tujuan utama aplikasi. 
+2. requirement: persyaratan tingkat tinggi untuk penyelesaian sistem
+3. core features: Fitur-fitur kunci yang harus ada dalam versi pertama (MVP)
+4. user flow: Alur pengguna dalam sistem dalam bentuk teks dan juga dalam bentuk diagram
+5. architecture : sequence diagram
+6. database schema: entity relationship diagram
+    - data pribadi pasien, rekam medis, data obat-obatan, data transaksi, data pengguna, data jadwal dokter, data paket, data konsultasi, data resep, data pesanan, data pembayaran, data pengiriman, data chat, data notifikasi, dan lain lain sesuai dengan desain sistem pada nomor sebelumnya.
+7. design and technical constraints
+    - system goals : tujuan sistem
+    - design dan batasan teknis yang harus diikuti
+    - assumptions and dependencies : asumsi dan ketergantungan. Aplikasi ini menjaga dan melindungi: integritas, ketersediaan, dan kerahasiaan dari Data Elektronik, keandalan dan keamanan Sistem Elektronik, dan Data Pribadi yang disimpan, ditransmisikan, atau diproses di dalam Sistem.
+8. daftar halaman sistem yang akan diimplementasikan
+9. wireframe: gambaran kasar tampilan antarmuka pengguna
+
+Setiap nomor harus disimpan di file terpisah dan dinamai sesuai nomor dan judulnya, misalnya 01-overview.md, 02-requirement.md, 03-core-features.md, dan seterusnya.
+Setiap bagian dokumen yang kamu buat nantinya akan diakses oleh programmer junior atau model AI lain yang lebih murah untuk diimplementasikan, oleh karena itu pastikan dokumen yang kamu buat sangat mudah dipahami.
+
+Berikut adalah Arsitektur Sistem Telemedicine dan Proses Bisnis Sistem Lebih Rinci untuk menjadi referensi:
+
+Arsitektur Sistem Telemedicine :
+Pendekatan Modular Monolithic digunakan untuk arsitektur ini, memanfaatkan kerangka kerja Laravel yang dipadukan dengan Livewire. Kombinasi ini memungkinkan pembuatan antarmuka pengguna yang reaktif secara server-side, meminimalkan overhead pembuatan API terpisah, dan memiliki ekosistem keamanan yang matang.
+1. Komponen Sistem Utama
+Sistem dibagi menjadi beberapa modul independen dalam satu basis kode (codebase):
+•	Modul Manajemen Pengguna (Identity & Access Management): Mengelola autentikasi dan otorisasi dengan Role-Based Access Control (RBAC). Terdapat tiga peran utama: Pasien, Dokter, dan Admin/Apotek.
+•	Modul Katalog & Anamnesis: Mengelola daftar paket layanan penurun berat badan dan pengumpulan data rekam medis pasien awal.
+•	Modul Penjadwalan & Konsultasi: Mengelola slot waktu dokter, proses booking, dan integrasi ruang virtual tatap muka menggunakan API Video Conference (Iframe).
+•	Modul Resep (E-Prescription): Menangani pembuatan, persetujuan, dan pengikatan resep digital kepada entitas pasien dan pesanan.
+•	Modul Transaksi & Pembayaran: Mengelola siklus penagihan ganda (pembayaran konsultasi dan pembayaran obat) yang terintegrasi dengan Payment Gateway (seperti Midtrans atau Xendit).
+•	Modul Order & Pengiriman: Melakukan agregasi pemesanan ke farmasi pusat dan melacak pengiriman menggunakan API logistik pihak ketiga (seperti Biteship atau RajaOngkir).
+2. Desain Database Inti
+Penggunaan Relational Database (seperti PostgreSQL atau MySQL) diwajibkan untuk menjamin integritas data (ACID compliance) pada transaksi keuangan dan rekam medis.
+•	Tabel users: Menyimpan kredensial dan profil.
+•	Tabel packages: Menyimpan master data paket penurunan berat badan beserta harganya.
+•	Tabel anamnesis_records: Menyimpan jawaban pasien secara terstruktur.
+•	Tabel consultations: Melacak status konsultasi (waiting_payment, scheduled, ongoing, completed, cancelled). Dilengkapi dengan kolom api_room_name untuk menyimpan identitas unik ruang pertemuan virtual per sesi.
+•	Tabel prescriptions: Menyimpan detail obat yang diresepkan. Pencatatan diagnosis dan resep dilakukan secara deskriptif murni oleh dokter, tidak ada penggunaan kode ICD yang diimplementasikan dalam struktur data ini guna menyederhanakan sistem.
+•	Tabel transactions: Melacak seluruh entri pembayaran. Memiliki relasi polimorfik atau tipe referensi untuk membedakan pembayaran biaya konsultasi dan medikasi.
+•	Tabel pharmacy_orders: Mencatat penerusan pesanan ke farmasi pusat dan menyimpan nomor resi pengiriman (tracking number).
+3. Pemetaan Alur Data & Logika Bisnis (State Machine)
+Sistem mengelola status yang sangat dinamis. Berikut adalah pemetaan alur sistem terhadap pemrosesan di backend:
+1.	Inisiasi (Booking): Pasien memilih paket dan mengisi anamnesis. Sistem membuat record consultations dengan status pending_payment.
+2.	Transaksi Konsultasi & Alokasi Ruang: Pasien diarahkan ke halaman pembayaran. Webhook dari Payment Gateway mengonfirmasi pembayaran, mengubah status konsultasi menjadi scheduled, dan sistem membangkitkan (generate) api_room_name (kombinasi unik menggunakan parameter hash ID konsultasi).
+3.	Sesi Konsultasi: Saat jadwal tiba, pasien dan dokter mengakses halaman Livewire. Sistem memuat komponen Iframe Video Conference berdasarkan api_room_name yang telah dibuat. Di layar dokter, iframe ini ditampilkan berdampingan dengan data anamnesis_records. Konsultasi berlangsung secara sinkron.
+4.	Keluaran Resep: Dokter menekan tombol selesai, yang memicu pemutusan komponen iframe ruang virtual dan mengubah status konsultasi menjadi completed. Dokter menyetujui paket pengobatan dan memberikan instruksi. Sistem meng-generate record prescriptions berbentuk dokumen digital (PDF) dengan watermark atau kode QR untuk validasi keaslian, terikat pada ID pasien dan ID konsultasi.
+5.	Transaksi Obat: Aplikasi memunculkan tagihan kedua berdasarkan prescriptions. Pasien melakukan pembayaran.
+6.	Fulfillment: Setelah pembayaran obat tervalidasi, background job (seperti Laravel Queues) dipicu untuk mengirimkan data pemesanan beserta lampiran resep PDF ke dasbor/API toko farmasi pusat.
+7.	Logistik: Farmasi memperbarui status pengemasan. API Logistik dipanggil untuk men-generate resi pihak ketiga (JNE, J&T). Status dilacak melalui sistem secara asinkron.
+4. Aspek Non-Functional Requirements (NFR)
+Untuk memenuhi standar keamanan, keandalan, dan pemeliharaan:
+•	Keamanan Data (Security): Semua data pasien (anamnesis dan resep) harus dienkripsi saat at-rest (di dalam database) menggunakan AES-256 dan in-transit menggunakan TLS/SSL. Implementasikan Rate Limiting pada endpoint publik untuk mencegah serangan Brute Force. Konfigurasi Content Security Policy (CSP) harus disesuaikan secara ketat untuk hanya mengizinkan pemuatan iframe dan script eksternal dari domain penyedia API yang diotorisasi.
+•	Keandalan (Reliability): Gunakan sistem antrean (Message Broker/Queue) seperti Redis untuk menangani tugas berat agar aplikasi tidak blocking. Tugas seperti pembuatan dokumen PDF resep, pengiriman email notifikasi, dan komunikasi dengan API logistik harus dijalankan di background.
+•	Skalabilitas (Scalability): Pisahkan penyimpanan media (seperti foto medis atau dokumen PDF) ke Object Storage eksternal seperti AWS S3 atau Google Cloud Storage. Hal ini mencegah peladen aplikasi kelebihan beban dan mempermudah migrasi jika sistem perlu diubah ke skala peladen yang lebih besar. Pendekatan penggunaan iframe juga mendukung skalabilitas karena beban streaming video ditanggung oleh peladen pihak ketiga, bukan peladen aplikasi utama.
+•	Pemeliharaan (Maintainability): Terapkan pola Repository atau Service Pattern pada kode backend untuk memisahkan logika bisnis dari controller. Hal ini memastikan kode tetap bersih, mudah diuji secara modular (Unit Testing), dan mudah diperbarui.
+5. Daftar Integrasi API Eksternal
+Untuk mendukung fungsionalitas utama tanpa membebani infrastruktur internal, sistem ini memerlukan integrasi dengan beberapa layanan API pihak ketiga:
+1.	API Payment Gateway (Gateway Pembayaran): Digunakan untuk mengotomatisasi verifikasi pembayaran pasien (biaya konsultasi dan biaya obat). API ini akan mengirimkan Webhook ke peladen aplikasi ketika pembayaran berhasil, gagal, atau kedaluwarsa.
+•	Midtrans: Pemimpin pasar di Indonesia. Memiliki SDK resmi untuk PHP/Laravel, dukungan simulator untuk tahap pengujian (Sandbox), dan dokumentasi yang sangat komprehensif.
+•	Xendit: Memiliki struktur API yang sangat modern dan tangguh (developer-friendly). Sangat tepat jika terdapat kebutuhan untuk fitur perutean pembayaran (split payment) antara klinik dan farmasi ke depannya.
+•	Duitku: Alternatif kompetitif dengan biaya potongan transaksi (MDR) yang relatif lebih rendah, cocok untuk meminimalisasi biaya operasional sistem.
+2.	API Video Conference: Digunakan untuk menyediakan ruang tatap muka virtual secara real-time terenkripsi di dalam peramban web tanpa memerlukan instalasi aplikasi tambahan.
+Jitsi Meet (Telah Dipilih): Implementasi dapat dilakukan melalui dua jalur:
+•	Jitsi Public Server: Menggunakan iframe secara gratis (melalui meet.jit.si), cocok untuk tahap pengembangan awal.
+•	8x8 JaaS (Jitsi as a Service): Provider komersial resmi untuk ekosistem Jitsi. Penggunaan provider ini sangat direkomendasikan untuk tahap produksi agar mendapatkan reliabilitas tingkat enterprise, kustomisasi antarmuka tanpa watermark, dan jaminan keamanan tanpa harus mengelola infrastruktur peladen video secara mandiri.
+3.	API Logistik / Ekspedisi: Digunakan untuk menghasilkan nomor resi pengiriman (AWB) secara otomatis setelah toko farmasi melakukan proses pengemasan, serta menyediakan pembaruan status pelacakan paket (tracking) kepada pasien secara asinkron.
+•	Biteship: Agregator logistik modern. Satu integrasi API langsung memberikan akses ke berbagai kurir pihak ketiga (JNE, J&T, SiCepat, dll). Format respon JSON sangat rapi, mendukung pembuatan resi (AWB) otomatis, dan memiliki fitur webhook untuk pembaruan pelacakan paket (tracking).
+•	RajaOngkir (Akun PRO): Standar industri yang sudah lama beroperasi di Indonesia. Diperlukan tipe akun PRO agar aplikasi tidak hanya sekadar dapat melakukan cek tarif, melainkan juga melakukan pelacakan status (waybill).
+•	Shipper: Provider agregator logistik berskala besar yang juga menawarkan layanan manajemen pergudangan (fulfillment) jika operasi farmasi kelak akan diperluas secara eksponensial.
+4.	API Farmasi / Inventory Eksternal: Digunakan saat proses Fulfillment untuk meneruskan pesanan obat yang sudah dibayar beserta dokumen resep digital (PDF) langsung ke sistem manajemen/kasir toko farmasi pusat.
+Ketersediaan API ini sangat bergantung pada sistem perangkat lunak (Point of Sales/ERP) yang saat ini digunakan oleh toko farmasi pusat.
+•	Custom REST API (In-House): Pendekatan paling umum jika farmasi memiliki sistem mandiri. Tim IT internal perlu membuat sebuah endpoint khusus (contoh: POST /api/v1/telemedicine/orders) untuk menerima transmisi payload JSON dari aplikasi telemedicine, yang berisi ID pesanan, detail SKU obat, dan tautan dokumen resep PDF.
+•	VMedis / Trustmedis API: Jika farmasi beroperasi menggunakan layanan Software as a Service (SaaS) manajemen apotek komersial (seperti VMedis yang populer di Indonesia), integrasi dapat langsung dihubungkan menggunakan kunci API dari provider tersebut.
+5.	API Notifikasi (Email SMTP / WhatsApp Gateway): Digunakan oleh sistem background job untuk mengirimkan notifikasi transaksional krusial, seperti pengingat jadwal konsultasi, tautan pembayaran, dan pembaruan status pengiriman.
+•	Email (SMTP / API):
+o	Mailtrap: Standar industri untuk fase pengembangan (development/testing). Digunakan untuk menangkap email uji coba agar tidak terkirim secara tidak sengaja ke alamat email asli pengguna.
+o	Mailgun / Sendgrid / Amazon SES: Provider tingkat produksi dengan tingkat keterkiriman (deliverability) yang tinggi, menjamin email notifikasi tagihan atau resep tidak diklasifikasikan sebagai Spam.
+•	WhatsApp Gateway:
+o	WhatsApp Business Cloud API (Meta Official): Solusi resmi, stabil, dan anti-blokir. Diperlukan proses verifikasi legalitas bisnis (PT/CV) secara ketat di Facebook Business Manager. Menggunakan sistem persetujuan templat pesan.
+o	Fonnte / Wablas: Provider pihak ketiga (unofficial API) lokal. Implementasi sangat cepat untuk notifikasi teks dasar karena memotong birokrasi verifikasi Meta. Ideal untuk skala proyek menengah atau purwarupa awal.
+
+ 
+Proses Bisnis Sistem Lebih Rinci :
+Fase 1: Skrining dan Pra-Konsultasi
+Fase ini bertujuan untuk mengumpulkan data awal dan memastikan pasien berada di jalur pelayanan yang tepat.
+1.	Pemilihan Layanan: Pasien mengakses aplikasi dan memilih paket layanan penurunan berat badan.
+2.	Pengisian Anamnesis & Skrining Wajib: Pasien mengisi formulir anamnesis terstruktur. Sistem melakukan validasi logika dasar pada tahap ini. Jika tujuan atau kondisi indikasi medis pasien ternyata tidak sesuai dengan program penurunan berat badan (misalnya ada komorbiditas tertentu), sistem tidak akan mengizinkan proses berlanjut dan secara otomatis mengarahkan (redirect) pasien ke halaman layanan lain, seperti rujukan ke dokter spesialis yang lebih sesuai.
+3.	Pengajuan Jadwal: Pasien yang lolos skrining memilih ketersediaan waktu dokter.
+Fase 2: Komitmen Finansial Awal
+Fase ini mengamankan waktu dokter dan memvalidasi keseriusan pasien sebelum sumber daya komputasi (seperti ruang Jitsi) dialokasikan.
+4.	Invoicing Konsultasi: Sistem menerbitkan tagihan biaya jasa medis (konsultasi).
+5.	Pembayaran Gateway: Pasien melakukan pelunasan. Webhook dari payment gateway (misal: Midtrans) memvalidasi transaksi.
+6.	Alokasi Sumber Daya: Sistem secara asinkron mengubah status menjadi jadwal aktif dan menghasilkan (generate) api_room_name yang unik untuk sesi Jitsi.
+Fase 3: Intervensi Medis Klinis
+Ini adalah fase inti di mana layanan medis diberikan secara real-time.
+7.	Persiapan Dokter: Sebelum atau saat sesi dimulai, dokter meninjau data anamnesis pasien di dasbor mereka.
+8.	Konsultasi Sinkron: Pasien dan dokter bertemu di ruang virtual (Jitsi Iframe). Dokter memvalidasi kondisi fisik secara visual dan melakukan wawancara medis mendalam.
+9.	Keputusan Klinis: Dokter memberikan diagnosis klinis, menyetujui kelayakan pasien untuk menerima obat keras penurun berat badan, dan memberikan edukasi (indikasi, kontraindikasi, cara pakai).
+10.	Penerbitan E-Prescription: Dokter menekan tombol selesai. Sistem secara otomatis memutus panggilan video dan menghasilkan dokumen resep digital (PDF) sebagai representasi legal dari instruksi dokter.
+Fase 4: Transaksi Farmasi & Fulfillment
+Fase ini mendelegasikan pemenuhan obat ke pihak ketiga (Farmasi Pusat) dengan resep sebagai syarat mutlak.
+11.	Invoicing Obat: Sistem membaca data dari record resep dan menerbitkan tagihan kedua yang berisi harga tebus obat.
+12.	Pembayaran Obat: Pasien menyelesaikan pembayaran tagihan farmasi.
+13.	Transmisi Pesanan: Setelah lunas, sistem secara otomatis meneruskan (forward) detail pesanan beserta lampiran PDF resep ke sistem apotek/farmasi pusat. Di titik ini, kewajiban aplikasi secara transaksional selesai dan beralih ke operasional farmasi.
+Fase 5: Operasional Logistik
+Fase terakhir ini mengelola perpindahan barang fisik dari apotek ke tangan pasien.
+14.	Pengemasan Standar: Staf farmasi pusat menerima transmisi sistem, menyiapkan obat sesuai resep, dan membungkusnya sesuai standar pengiriman obat keras.
+15.	Pembuatan Resi (AWB): Sistem (melalui API logistik seperti Biteship) secara otomatis menghasilkan nomor resi kurir pihak ketiga (JNE, J&T).
+16.	Pengiriman & Pelacakan: Kurir mengambil paket dari farmasi dan mengirimkannya ke alamat pasien. Sistem aplikasi terus memperbarui status pengiriman (tracking) agar bisa dipantau oleh pasien hingga paket berstatus diterima.
+
