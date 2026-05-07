@@ -123,7 +123,7 @@ G --> H[Pasien Bayar Obat via Midtrans]
 H --> I[Apotek Proses Resep & Siapkan Paket]
 I --> J[Apotek kirim Paket & Dapatkan Nomor Resi via Biteship]
 J --> K[Pasien dapat notifikasi Whatsapp & Lacak Paket]
-L --> M[Pasien Terima Obat & Beri Ulasan]
+K --> L[Pasien Terima Obat & Beri Ulasan]
 ```
 
 ## Penjelasan Non-Teknis
