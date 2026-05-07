@@ -23,13 +23,53 @@ Model ini adalah **toko online resmi untuk produk herbal** yang dioperasikan ole
 6. **AI Marketing untuk Rekomendasi dan Pengingat**: Website memberi rekomendasi produk dan bisa mengirim pengingat minum produk lewat email atau WhatsApp.
 
 ## Apa yang Dibutuhkan
+
+### Fitur Dasar Website (Bawaan Bagisto)
 - Halaman produk dan katalog yang mudah dibaca
-- Sistem pembayaran online sederhana yang terhubung dengan Midtrans
-- Sistem pengiriman yang terhubung dengan Biteship untuk mencetak resi dan melacak paket
-- Fitur notifikasi otomatis lewat WhatsApp
-- Dasbor untuk mitra affiliate dan sistem pembayaran komisi
-- Dokumen BPOM dan alur persetujuan produk
-- Data pelanggan untuk menyimpan riwayat pembelian dan membantu mempertahankan pelanggan
+- Keranjang belanja untuk menampung produk sebelum pembayaran
+- Sistem checkout sederhana dengan penghitungan total otomatis
+- Halaman konfirmasi pesanan setelah pembayaran
+- Dasbor admin untuk melacak semua pesanan dan status
+- Manajemen pelanggan dan profil pengguna
+- Pengaturan mata uang dalam Rupiah (IDR)
+- Fitur diskon dan promosi dasar
+
+### Integrasi Pembayaran (Midtrans)
+- Koneksi pembayaran ke Midtrans agar pelanggan bisa membayar dengan cara berbeda (transfer bank, QRIS, dompet digital)
+- Penerimaan konfirmasi pembayaran otomatis dari Midtrans
+- Perubahan status pesanan otomatis dari "Belum Bayar" menjadi "Sudah Bayar"
+
+### Integrasi Logistik (Biteship)
+- Sistem alamat berjenjang (Provinsi → Kota → Kecamatan) agar pengiriman lebih akurat
+- Perhitungan biaya kirim otomatis dari Biteship berdasarkan lokasi dan berat barang
+- Pembuatan nomor resi paket otomatis ketika pesanan diproses
+- Fitur tracking untuk pelanggan melacak paket
+
+### Notifikasi WhatsApp
+- Pengiriman pesan otomatis ke pelanggan saat pemesanan berhasil
+- Notifikasi pembayaran dan nomor resi melalui WhatsApp
+- Pengingat konsumsi produk otomatis lewat WhatsApp
+
+### Fitur Afiliasi (Mitra Penjualan)
+- Halaman khusus untuk mitra affiliate guna melihat link referral mereka
+- Dasbor penjualan untuk melacak berapa banyak orang yang membeli lewat link mereka
+- Perhitungan komisi otomatis berdasarkan penjualan
+- Halaman penarikan dana untuk mitra affiliate
+- Sistem pengaman untuk memastikan komisi dikreditkan ke mitra yang benar
+
+### Keuangan dan Keuntungan
+- Perhitungan laba bersih otomatis dari setiap penjualan
+- Dasbor transparansi untuk melihat pembagian keuntungan antara paten, formulasi, dan perusahaan
+
+### Kecerdasan Buatan (AI) & Personalisasi
+- Sistem pengingat minum produk berdasarkan jadwal pembelian pelanggan
+- Rekomendasi produk otomatis kepada pelanggan
+- Fitur persetujuan konten agar semua klaim produk sudah disetujui sebelum dipublikasikan
+
+### Kepatuhan Aturan
+- Dokumentasi BPOM dan alur persetujuan produk
+- Fitur keamanan dan audit untuk melacak semua aktivitas
+- Data pelanggan tersimpan aman dan sesuai aturan privasi
 
 ## Alur Sederhana
 
