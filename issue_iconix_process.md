@@ -19,7 +19,7 @@ Membuat serangkaian dokumen pemodelan UML sesuai fase-fase ICONIX Process yang t
   - Buat Use Case Diagram komprehensif untuk Aktor (Pelanggan, Mitra Afiliasi, Admin).
   - Tuliskan skenario deskriptif (*Basic Course* & *Alternate Courses*) untuk setiap Use Case.
 
-- [ ] **Task 3: Analisis Robustness (Preliminary Design)**
+- [x] **Task 3: Analisis Robustness (Preliminary Design)**
   - Buat dokumen `prd-website-toko-obat-online/10-robustness-diagram.md`.
   - Konversi teks skenario Use Case menjadi visualisasi interaksi *Boundary*, *Controller*, dan *Entity* (*noun-verb-noun*).
 
