@@ -14,7 +14,7 @@ Membuat serangkaian dokumen pemodelan UML sesuai fase-fase ICONIX Process yang t
   - Identifikasi entitas objek dunia nyata (Customer, Order, Affiliate, Product, dll).
   - Buat visualisasi domain model konseptual (tanpa metode).
 
-- [ ] **Task 2: Pemodelan Use Case Diagram & Deskripsi**
+- [x] **Task 2: Pemodelan Use Case Diagram & Deskripsi**
   - Buat dokumen `prd-website-toko-obat-online/09-use-case-model.md`.
   - Buat Use Case Diagram komprehensif untuk Aktor (Pelanggan, Mitra Afiliasi, Admin).
   - Tuliskan skenario deskriptif (*Basic Course* & *Alternate Courses*) untuk setiap Use Case.
