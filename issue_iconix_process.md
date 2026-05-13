@@ -23,7 +23,7 @@ Membuat serangkaian dokumen pemodelan UML sesuai fase-fase ICONIX Process yang t
   - Buat dokumen `prd-website-toko-obat-online/10-robustness-diagram.md`.
   - Konversi teks skenario Use Case menjadi visualisasi interaksi *Boundary*, *Controller*, dan *Entity* (*noun-verb-noun*).
 
-- [ ] **Task 4: Desain Detail - Sequence Diagram**
+- [x] **Task 4: Desain Detail - Sequence Diagram**
   - Buat dokumen `prd-website-toko-obat-online/11-sequence-diagram.md`.
   - Jabarkan interaksi alokasi perilaku antar objek berdasarkan waktu, mempertimbangkan arsitektur MVC (Bagisto/Laravel).
 
