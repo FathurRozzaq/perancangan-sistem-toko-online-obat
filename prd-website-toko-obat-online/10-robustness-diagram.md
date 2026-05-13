@@ -25,9 +25,9 @@ flowchart TD
 
     %% Objek
     A((Customer)):::actor
-    B1[/Halaman Keranjang/]::boundary
-    B2[/Halaman Checkout/]::boundary
-    B3[/Midtrans Snap Gateway/]::boundary
+    B1[/Halaman Keranjang/]:::boundary
+    B2[/Halaman Checkout/]:::boundary
+    B3[/Midtrans Snap Gateway/]:::boundary
     
     C1(Muat Form Checkout):::controller
     C2(Kalkulasi Ongkir Biteship):::controller
@@ -74,8 +74,8 @@ flowchart TD
 
     %% Objek
     A((Mitra Afiliasi)):::actor
-    B1[/Dasbor Afiliasi/]::boundary
-    B2[/Form Penarikan Dana/]::boundary
+    B1[/Dasbor Afiliasi/]:::boundary
+    B2[/Form Penarikan Dana/]:::boundary
     
     C1(Validasi Saldo & Limit):::controller
     C2(Simpan Pengajuan):::controller
@@ -116,8 +116,8 @@ flowchart TD
 
     %% Objek
     A((Admin Compliance)):::actor
-    B1[/Daftar Draf Produk/]::boundary
-    B2[/Detail Draf Produk/]::boundary
+    B1[/Daftar Draf Produk/]:::boundary
+    B2[/Detail Draf Produk/]:::boundary
     
     C1(Ambil Data Draf):::controller
     C2(Proses Persetujuan):::controller
