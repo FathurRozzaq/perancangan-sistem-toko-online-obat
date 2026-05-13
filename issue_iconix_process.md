@@ -27,7 +27,7 @@ Membuat serangkaian dokumen pemodelan UML sesuai fase-fase ICONIX Process yang t
   - Buat dokumen `prd-website-toko-obat-online/11-sequence-diagram.md`.
   - Jabarkan interaksi alokasi perilaku antar objek berdasarkan waktu, mempertimbangkan arsitektur MVC (Bagisto/Laravel).
 
-- [ ] **Task 5: Finalisasi Class Diagram**
+- [x] **Task 5: Finalisasi Class Diagram**
   - Buat dokumen `prd-website-toko-obat-online/12-class-diagram.md`.
   - Mutakhirkan Domain Model dengan menambahkan atribut data dan metode operasional (fungsi) dari hasil pembedahan Sequence Diagram.
 
